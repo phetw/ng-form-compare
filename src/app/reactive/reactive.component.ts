@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { HeroService } from '../service/hero.service';
+import { Observable, of } from 'rxjs';
 
 /**
  *
@@ -16,10 +19,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reactive.component.scss']
 })
 export class ReactiveComponent implements OnInit {
+  heroForm = new FormGroup({
+    name: new FormControl(''),
+    power: new FormControl(''),
+  })
+  powers: Observable<string[]> = of([''])
 
-  constructor() { }
+  constructor(private heroService: HeroService) { }
 
   ngOnInit() {
+    this.powers = this.heroService.getPower()
+  }
+
+  onSubmit() {
+    this.heroService.logHero({
+      id: Math.random(),
+      ...this.heroForm.value
+    })
   }
 
 }
