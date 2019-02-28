@@ -1,3 +1,16 @@
-<p>
-  template-driven works!
-</p>
+<div class="container">
+  <form #heroForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" [(ngModel)]="hero.name" name="name" autocomplete="off" required>
+    </div>
+    <div class="form-group">
+      <label for="power">Hero Power</label>
+      <select class="form-control" id="power" [(ngModel)]="hero.power" name="power" required>
+        <option value="" disabled selected hidden>Select a value</option>
+        <option *ngFor="let pow of powers | async" [value]="pow">{{pow}}</option>
+      </select>
+    </div>
+    <button [disabled]="!heroForm.form.valid" type="submit" class="btn btn-success">Submit</button>
+  </form>
+</div>

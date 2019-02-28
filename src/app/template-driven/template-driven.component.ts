@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Hero } from '../model/hero';
+import { HeroService } from '../service/hero.service';
+import { Observable, of } from 'rxjs';
 
 /**
  *
@@ -17,10 +20,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./template-driven.component.scss']
 })
 export class TemplateDrivenComponent implements OnInit {
+  hero: Hero = new Hero(0, '', '')
+  powers: Observable<string[]> = of([''])
 
-  constructor() { }
+  constructor(private heroService: HeroService) { }
 
   ngOnInit() {
+    this.powers = this.heroService.getPower()
   }
 
+  onSubmit() {
+    this.heroService.logHero({
+      ...this.hero,
+      id: Math.random()
+    })
+  }
 }
