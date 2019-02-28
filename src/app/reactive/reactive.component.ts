@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { HeroService } from '../service/hero.service';
 import { Observable, of } from 'rxjs';
 
@@ -19,13 +19,13 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./reactive.component.scss']
 })
 export class ReactiveComponent implements OnInit {
-  heroForm = new FormGroup({
-    name: new FormControl(''),
-    power: new FormControl(''),
+  heroForm = this.formBuilder.group({
+    name: ['', Validators.required],
+    power: ['', Validators.required]
   })
   powers: Observable<string[]> = of([''])
 
-  constructor(private heroService: HeroService) { }
+  constructor(private formBuilder: FormBuilder, private heroService: HeroService) { }
 
   ngOnInit() {
     this.powers = this.heroService.getPower()
